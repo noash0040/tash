@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { tableHeader, tableHeaders } from "../../Models/TableModels";
+import { useEffect } from "react";
 
 type props = {
   data: Array<Object>;

@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 type props = {
   color: string;
   handleChange: React.ChangeEventHandler<HTMLInputElement>;
