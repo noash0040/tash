@@ -3,10 +3,22 @@ export type tableHeader = {
   heName: string;
 };
 
-export const tableHeaders: tableHeader[] = [
+export const futureTableHeaders: tableHeader[] = [
   {
-    name: "id",
-    heName: 'מס"ד',
+    name: "date",
+    heName: "תאריך",
+  },
+  {
+    name: "day",
+    heName: "יום",
+  },
+  {
+    name: "leader",
+    heName: "מוביל",
+  },
+  {
+    name: "extra",
+    heName: "תורן נוסף",
   },
   {
     name: "commander",
@@ -14,30 +26,23 @@ export const tableHeaders: tableHeader[] = [
   },
   {
     name: "class",
-    heName: "מדור",
-  },
-  {
-    name: "name",
-    heName: "שם",
-  },
-  {
-    name: "lastName",
-    heName: "שם משפחה",
-  },
-  {
-    name: "type",
-    heName: "שיוך",
-  },
-  {
-    name: "license",
-    heName: "בעל רישיון צבאי",
-  },
-  {
-    name: "trained",
-    heName: "עבר הכשרת שאיבות",
-  },
-  {
-    name: "fit",
-    heName: "כשיר",
+    heName: "ענף",
   },
 ];
+
+export type soldier = {
+  'מס"ד': string;
+  'רמ"ד': string;
+  מדור: string;
+  שם: string;
+  "שם משפחה": string;
+  שיוך: string;
+  "בעל/ת רישיון צבאי": heBolean;
+  "עבר/ה הכשרה לשאיבות": heBolean;
+  'כשיר/ה (חוסן, ת"ש)': heBolean;
+};
+
+export enum heBolean {
+  לא = 0,
+  כן = 1,
+}

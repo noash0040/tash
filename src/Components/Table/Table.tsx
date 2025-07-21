@@ -1,41 +1,45 @@
 import { useEffect } from "react";
+import "./Table.css";
+import { soldier, tableHeader } from "../../Models/TableModels";
 
 type props = {
-  data: Array<Object>;
+  headers?: tableHeader[];
+  data: soldier[];
 };
 
-const Table = ({ data }: props) => {
+const Table = ({ data, headers }: props) => {
   useEffect(() => {
     console.log(data);
   }, []);
 
-  const getHeadings = (data: Array<Object>) => {
+  const getHeadings = () => {
+    if (headers) {
+      return headers.map((header: tableHeader) => {
+        return <th>{header.heName}</th>;
+      });
+    }
+
     return Object.keys(data[0]).map((key) => {
-      return <th className="border-1">{key}</th>;
+      return <th key={key}>{key}</th>;
     });
   };
 
-  // `map` over the data to return
-  // row data, passing in each mapped object
-  // to `getCells`
-  const getRows = (data: Array<Object>) => {
+  const getRows = () => {
     return data.map((obj) => {
-      return <tr className="border-1">{getCells(obj)}</tr>;
+      return <tr>{getCells(obj)}</tr>;
     });
   };
 
-  // Return an array of cell data using the
-  // values of each object
   const getCells = (obj: Object) => {
     return Object.values(obj).map((value) => {
-      return <td className="border-1">{value}</td>;
+      return <td>{value}</td>;
     });
   };
 
   return (
-    <table>
-      <thead className="border-1">{getHeadings(data)}</thead>
-      <tbody className="border-1">{getRows(data)}</tbody>
+    <table dir="rtl" className="w-full h-full">
+      <thead>{getHeadings()}</thead>
+      <tbody>{getRows()}</tbody>
     </table>
   );
 };

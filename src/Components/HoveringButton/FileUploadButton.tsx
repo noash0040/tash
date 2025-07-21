@@ -1,3 +1,5 @@
+import { FaCloudUploadAlt } from "react-icons/fa";
+
 type props = {
   color: string;
   handleChange: React.ChangeEventHandler<HTMLInputElement>;
@@ -17,7 +19,10 @@ const FileUploadButton = ({ color, handleChange }: props) => {
         style={{ backgroundColor: color }}
         onClick={handleClick}
       >
-        קובץ
+        <h3 className="flex items-center justify-around w-8/10">
+          בחר קובץ
+          <FaCloudUploadAlt />
+        </h3>
       </button>
     </>
   );

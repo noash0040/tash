@@ -1,0 +1,16 @@
+table {
+  border: 1px solid #dfdfdf;
+  border-collapse: collapse;
+}
+th {
+  background-color: #efefef;
+  text-align: right;
+  text-transform: uppercase;
+}
+td {
+  border: 1px solid #efefef;
+}
+td,
+th {
+  padding: 0.4em;
+}
