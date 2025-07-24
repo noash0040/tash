@@ -30,7 +30,33 @@ export const futureTableHeaders: tableHeader[] = [
   },
 ];
 
-export type soldier = {
+export enum classes {
+  tos = 'תו"ס',
+  migun = "מיגון",
+  bakara = "בקרה",
+}
+
+export enum daysOfTheWeek {
+  "א'" = 0,
+  "ב'" = 1,
+  "ג'" = 2,
+  "ד'" = 3,
+  "ה'" = 4,
+  "ו'" = 5,
+  "ש'" = 6,
+}
+
+export interface assignedTableRow {
+  תאריך: string;
+  "יום בשבוע": string;
+  "מוביל המשימה": string;
+  "תורן נוסף": string;
+  'רמ"ד': string;
+  ענף: classes;
+  "בוצע?": boolean;
+}
+
+export interface soldier {
   'מס"ד': string;
   'רמ"ד': string;
   מדור: string;
@@ -40,9 +66,9 @@ export type soldier = {
   "בעל/ת רישיון צבאי": heBolean;
   "עבר/ה הכשרה לשאיבות": heBolean;
   'כשיר/ה (חוסן, ת"ש)': heBolean;
-};
+}
 
 export enum heBolean {
-  לא = 0,
-  כן = 1,
+  "לא" = 0,
+  "כן" = 1,
 }

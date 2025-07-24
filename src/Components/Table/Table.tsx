@@ -1,32 +1,39 @@
-import { useEffect } from "react";
+import { ReactElement } from "react";
 import "./Table.css";
-import { soldier, tableHeader } from "../../Models/TableModels";
+import {
+  assignedTableRow,
+  daysOfTheWeek,
+  tableHeader,
+} from "../../Models/TableModels";
 
 type props = {
   headers?: tableHeader[];
-  data: soldier[];
+  data: assignedTableRow[];
 };
 
-const Table = ({ data, headers }: props) => {
-  useEffect(() => {
-    console.log(data);
-  }, []);
-
+const Table = ({ data }: props) => {
   const getHeadings = () => {
-    if (headers) {
-      return headers.map((header: tableHeader) => {
-        return <th>{header.heName}</th>;
+    let headers: Array<ReactElement> = [];
+
+    if (data.length > 0) {
+      headers = Object.keys(data[0]).map((key) => {
+        return <th key={key}>{key}</th>;
       });
     }
 
-    return Object.keys(data[0]).map((key) => {
-      return <th key={key}>{key}</th>;
-    });
+    return headers;
   };
 
   const getRows = () => {
     return data.map((obj) => {
-      return <tr>{getCells(obj)}</tr>;
+      const isWeekend =
+        obj["יום בשבוע"] == daysOfTheWeek[daysOfTheWeek["ו'"]] ||
+        obj["יום בשבוע"] == daysOfTheWeek[daysOfTheWeek["ש'"]];
+      return (
+        <tr key={obj.תאריך} className={isWeekend ? "bg-gray-100" : "bg-white"}>
+          {getCells(obj)}
+        </tr>
+      );
     });
   };
 
@@ -38,7 +45,9 @@ const Table = ({ data, headers }: props) => {
 
   return (
     <table dir="rtl" className="w-full h-full">
-      <thead>{getHeadings()}</thead>
+      <thead>
+        <tr>{getHeadings()}</tr>
+      </thead>
       <tbody>{getRows()}</tbody>
     </table>
   );
