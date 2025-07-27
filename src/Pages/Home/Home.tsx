@@ -64,14 +64,27 @@ const Home = () => {
 
   return (
     <div>
-      <p dir="rtl" className="text-right">
+      <p dir="rtl" className="text-center font-bold">
         {fileValidText}
       </p>
-      {isFileValid && soldierList && (
-        <div className="w-9/10 h-9/10">
-          <Table data={futureMonth}></Table>
+
+      <div className="w-full h-full flex justify-center">
+        <div className="w-19/20 h-1/3 flex justify-between flex-row-reverse">
+          {soldierList.length > 0 && (
+            <div className="w-24/50">
+              <h1 className="font-bold">טבלת חיילים</h1>
+              <Table data={soldierList}></Table>
+            </div>
+          )}
+
+          {futureMonth.length > 0 && (
+            <div className="w-24/50">
+              <h1 className="font-bold">טבלה עתידית</h1>
+              <Table data={futureMonth}></Table>
+            </div>
+          )}
         </div>
-      )}
+      </div>
       <div className="fixed left-1/2 bottom-5">
         <div className="relative left-[-50%] w-30 h-15">
           <FileUploadButton

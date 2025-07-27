@@ -15,7 +15,7 @@ const FileUploadButton = ({ color, handleChange }: props) => {
       <input id="file-upload" type="file" onChange={handleChange} hidden />
       <button
         id="button-label"
-        className={`w-full h-full rounded-full flex items-center justify-center hover:opacity-70 shadow-2xl active:translate-y-1`}
+        className={`w-full h-full rounded-full flex items-center justify-center hover:opacity-70 cursor-pointer shadow-2xl active:translate-y-1`}
         style={{ backgroundColor: color }}
         onClick={handleClick}
       >

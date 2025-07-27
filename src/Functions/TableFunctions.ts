@@ -4,6 +4,7 @@ import {
   daysOfTheWeek,
   heBolean,
   soldier,
+  weekend,
 } from "../Models/TableModels";
 import moment, { Moment } from "moment";
 
@@ -29,10 +30,11 @@ export const makeFutureTable = (
     (person: soldier) => !heBolean[person[licenseHeader]]
   );
 
-  return fillAMonth(Leaders, Extras, lastMonthList);
+  return fillAMonth(soldierList, Leaders, Extras, lastMonthList);
 };
 
 const fillAMonth = (
+  soldiers: soldier[],
   Leaders: soldier[],
   Extras: soldier[],
   lastMonthList: assignedTableRow[]
@@ -55,11 +57,21 @@ const fillAMonth = (
     switch (lastClassAssigned) {
       case classes.bakara:
       case classes.migun:
-        const week = fillAWeek([], Leaders, Extras, startingDate);
+        const week = fillAWeek(soldiers, [], Leaders, Extras, startingDate);
         month = month.concat(week);
         break;
       case classes.tos:
-        month = month.concat(createEmptyWeek(startingDate, classes.bakara));
+        const wholeLists = lastMonthList.concat(month);
+
+        const lastNotTosClass =
+          wholeLists[wholeLists.length - daysInWeek - 1].ענף;
+
+        month = month.concat(
+          createEmptyWeek(
+            startingDate,
+            lastNotTosClass == classes.bakara ? classes.migun : classes.bakara
+          )
+        );
         break;
     }
   }
@@ -68,6 +80,7 @@ const fillAMonth = (
 };
 
 const fillAWeek = (
+  soldiers: soldier[],
   table: assignedTableRow[],
   leaders: soldier[],
   extras: soldier[],
@@ -83,6 +96,10 @@ const fillAWeek = (
   const leaderFullName = `${leader.שם} ${leader["שם משפחה"]}`;
   const extraFullName = `${extra.שם} ${extra["שם משפחה"]}`;
 
+  isWeekend(daysOfTheWeek[rowNumber])
+    ? (leader.נקודות += 2)
+    : (leader.נקודות += 1);
+
   const row = newAssignedTableRow(
     startingDay,
     leaderFullName,
@@ -93,6 +110,7 @@ const fillAWeek = (
 
   table.push(row);
   fillAWeek(
+    soldiers,
     table,
     leaders.filter((lead) => leader.שם !== lead.שם),
     extras.filter((ext) => ext.שם !== extra.שם),
@@ -148,23 +166,6 @@ const newEmptyAssignedTableRow = (
   };
 };
 
-const CheckIfSoldierValidToAssign = (
-  soldier: soldier,
-  date: Moment,
-  lastMonthList: assignedTableRow[]
-) => {
-  const soldierFullName = `${soldier.שם} ${soldier["שם משפחה"]}`;
-  const index = lastMonthList.findIndex((row) =>
-    moment(row.תאריך, dateFormat).isSame(date.clone().subtract(1, "week"))
-  );
-
-  const exists = lastMonthList
-    .slice(index)
-    .some(
-      (row) =>
-        row["מוביל המשימה"] == soldierFullName ||
-        row["תורן נוסף"] == soldierFullName
-    );
-
-  return !exists;
+export const isWeekend = (day: string) => {
+  return weekend.includes(daysOfTheWeek[day]);
 };

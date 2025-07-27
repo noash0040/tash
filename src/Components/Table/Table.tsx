@@ -1,15 +1,11 @@
 import { ReactElement } from "react";
 import "./Table.css";
-import {
-  assignedTableRow,
-  daysOfTheWeek,
-  tableHeader,
-  weekend,
-} from "../../Models/TableModels";
+import { assignedTableRow, tableHeader } from "../../Models/TableModels";
+import { isWeekend } from "../../Functions/TableFunctions";
 
 type props = {
   headers?: tableHeader[];
-  data: assignedTableRow[];
+  data: object[];
 };
 
 const Table = ({ data }: props) => {
@@ -27,9 +23,10 @@ const Table = ({ data }: props) => {
 
   const getRows = () => {
     return data.map((obj) => {
-      const isWeekend = weekend.includes(daysOfTheWeek[obj["יום בשבוע"]]);
       return (
-        <tr key={obj.תאריך} className={isWeekend ? "bg-gray-100" : "bg-white"}>
+        <tr
+          className={isWeekend(obj["יום בשבוע"]) ? "bg-gray-100" : "bg-white"}
+        >
           {getCells(obj)}
         </tr>
       );

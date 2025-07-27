@@ -66,6 +66,7 @@ export interface soldier {
   "בעל/ת רישיון צבאי": heBolean;
   "עבר/ה הכשרה לשאיבות": heBolean;
   'כשיר/ה (חוסן, ת"ש)': heBolean;
+  נקודות: number;
 }
 
 export enum heBolean {
