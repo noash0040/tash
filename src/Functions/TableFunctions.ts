@@ -166,6 +166,18 @@ const newEmptyAssignedTableRow = (
   };
 };
 
-export const isWeekend = (day: string) => {
-  return weekend.includes(daysOfTheWeek[day]);
+export const isWeekend = (day: any) => {
+  let isweekend = false;
+  switch (typeof day) {
+    case "string":
+      isweekend = weekend.includes(day);
+      break;
+    case "object":
+      isweekend = weekend.includes((day as assignedTableRow)["יום בשבוע"]);
+      break;
+    case "number":
+      isweekend = weekend.includes(daysOfTheWeek[day]);
+      break;
+  }
+  return isweekend;
 };

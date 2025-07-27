@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import "./Table.css";
-import { assignedTableRow, tableHeader } from "../../Models/TableModels";
+import { tableHeader } from "../../Models/TableModels";
 import { isWeekend } from "../../Functions/TableFunctions";
 
 type props = {
@@ -24,9 +24,7 @@ const Table = ({ data }: props) => {
   const getRows = () => {
     return data.map((obj) => {
       return (
-        <tr
-          className={isWeekend(obj["יום בשבוע"]) ? "bg-gray-100" : "bg-white"}
-        >
+        <tr className={isWeekend(obj) ? "bg-gray-100" : "bg-white"}>
           {getCells(obj)}
         </tr>
       );

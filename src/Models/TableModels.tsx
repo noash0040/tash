@@ -74,4 +74,4 @@ export enum heBolean {
   "כן" = 1,
 }
 
-export const weekend = [daysOfTheWeek["ו'"], daysOfTheWeek["ש'"]];
+export const weekend = Object.keys(daysOfTheWeek).slice(-2);
