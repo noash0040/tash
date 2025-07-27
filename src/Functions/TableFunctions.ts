@@ -25,14 +25,21 @@ export const makeFutureTable = (
     (person: soldier) => heBolean[person[licenseHeader]]
   );
 
-  const extras = filteredSolderData.filter(
+  const Extras = filteredSolderData.filter(
     (person: soldier) => !heBolean[person[licenseHeader]]
   );
 
+  return fillAMonth(Leaders, Extras, lastMonthList);
+};
+
+const fillAMonth = (
+  Leaders: soldier[],
+  Extras: soldier[],
+  lastMonthList: assignedTableRow[]
+) => {
   const lastMonthLastRow = lastMonthList[lastMonthList.length - 1];
   const day = moment(lastMonthLastRow?.תאריך, dateFormat);
   const firstDayOfFutureTable = day.clone().add(1, "day");
-  const lastDayOfFutureTable = day.clone().add(weeksInMonth, "weeks");
 
   let month: assignedTableRow[] = [];
 
@@ -48,14 +55,7 @@ export const makeFutureTable = (
     switch (lastClassAssigned) {
       case classes.bakara:
       case classes.migun:
-        const week = fillAWeek(
-          [],
-          Leaders,
-          extras,
-          lastMonthList,
-          startingDate,
-          lastDayOfFutureTable
-        );
+        const week = fillAWeek([], Leaders, Extras, startingDate);
         month = month.concat(week);
         break;
       case classes.tos:
@@ -71,98 +71,36 @@ const fillAWeek = (
   table: assignedTableRow[],
   leaders: soldier[],
   extras: soldier[],
-  lastMonthList: assignedTableRow[],
   startingDay: Moment,
-  lastDayOfFutureTable: Moment,
   rowNumber: number = 0
 ): assignedTableRow[] => {
   if (rowNumber >= daysInWeek) {
     return table;
   }
 
-  const isLastAssignmentTableRelevant = startingDay
-    .clone()
-    .subtract(1, "week")
-    .isSameOrBefore(lastDayOfFutureTable);
   const leader = leaders[Math.floor(Math.random() * leaders.length)];
-  const extra = giveAvailableExtra(
-    isLastAssignmentTableRelevant,
-    extras,
-    lastMonthList,
-    startingDay
-  );
+  const extra = extras[Math.floor(Math.random() * extras.length)];
   const leaderFullName = `${leader.שם} ${leader["שם משפחה"]}`;
   const extraFullName = `${extra.שם} ${extra["שם משפחה"]}`;
 
   const row = newAssignedTableRow(
     startingDay,
     leaderFullName,
+    extraFullName,
     leader['רמ"ד'],
     classes.tos
   );
 
-  if (isLastAssignmentTableRelevant) {
-    if (!CheckIfSoldierValidToAssign(leader, startingDay, lastMonthList)) {
-      fillAWeek(
-        table,
-        leaders,
-        extras,
-        lastMonthList,
-        startingDay,
-        lastDayOfFutureTable,
-        rowNumber
-      );
-    } else {
-      row["תורן נוסף"] = extraFullName;
-      table.push(row);
-
-      fillAWeek(
-        table,
-        leaders.filter((lead) => leader.שם !== lead.שם),
-        extras.filter((ext) => ext.שם !== extra.שם),
-        lastMonthList,
-        startingDay.clone().add(1, "day"),
-        lastDayOfFutureTable,
-        rowNumber + 1
-      );
-    }
-  } else {
-    row["תורן נוסף"] = extraFullName;
-    table.push(row);
-    fillAWeek(
-      table,
-      leaders.filter((lead) => leader.שם !== lead.שם),
-      extras.filter((ext) => ext.שם !== extra.שם),
-      lastMonthList,
-      startingDay.clone().add(1, "day"),
-      lastDayOfFutureTable,
-      rowNumber + 1
-    );
-  }
+  table.push(row);
+  fillAWeek(
+    table,
+    leaders.filter((lead) => leader.שם !== lead.שם),
+    extras.filter((ext) => ext.שם !== extra.שם),
+    startingDay.clone().add(1, "day"),
+    rowNumber + 1
+  );
 
   return table;
-};
-
-const giveAvailableExtra = (
-  isLastTableRelevant: boolean,
-  extras: soldier[],
-  lastMonthList: assignedTableRow[],
-  startingDay: Moment
-) => {
-  const extra = extras[Math.floor(Math.random() * extras.length)];
-
-  if (isLastTableRelevant) {
-    if (!CheckIfSoldierValidToAssign(extra, startingDay, lastMonthList)) {
-      giveAvailableExtra(
-        isLastTableRelevant,
-        extras.filter((ext) => ext.שם !== extra.שם),
-        lastMonthList,
-        startingDay
-      );
-    }
-  }
-
-  return extra;
 };
 
 const createEmptyWeek = (startingDate: Moment, classType: classes) => {
@@ -180,9 +118,9 @@ const createEmptyWeek = (startingDate: Moment, classType: classes) => {
 const newAssignedTableRow = (
   date: Moment,
   leads: string,
+  extraSoldier: string,
   commander: string,
-  classType: classes,
-  extraSoldier = ""
+  classType: classes
 ): assignedTableRow => {
   return {
     תאריך: date.format(dateFormat),

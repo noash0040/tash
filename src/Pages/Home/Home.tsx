@@ -68,7 +68,7 @@ const Home = () => {
         {fileValidText}
       </p>
       {isFileValid && soldierList && (
-        <div className="w-full h-full">
+        <div className="w-9/10 h-9/10">
           <Table data={futureMonth}></Table>
         </div>
       )}

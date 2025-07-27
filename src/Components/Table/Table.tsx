@@ -4,6 +4,7 @@ import {
   assignedTableRow,
   daysOfTheWeek,
   tableHeader,
+  weekend,
 } from "../../Models/TableModels";
 
 type props = {
@@ -26,9 +27,7 @@ const Table = ({ data }: props) => {
 
   const getRows = () => {
     return data.map((obj) => {
-      const isWeekend =
-        obj["יום בשבוע"] == daysOfTheWeek[daysOfTheWeek["ו'"]] ||
-        obj["יום בשבוע"] == daysOfTheWeek[daysOfTheWeek["ש'"]];
+      const isWeekend = weekend.includes(daysOfTheWeek[obj["יום בשבוע"]]);
       return (
         <tr key={obj.תאריך} className={isWeekend ? "bg-gray-100" : "bg-white"}>
           {getCells(obj)}

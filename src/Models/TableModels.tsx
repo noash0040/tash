@@ -72,3 +72,5 @@ export enum heBolean {
   "לא" = 0,
   "כן" = 1,
 }
+
+export const weekend = [daysOfTheWeek["ו'"], daysOfTheWeek["ש'"]];
