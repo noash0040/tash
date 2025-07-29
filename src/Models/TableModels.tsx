@@ -3,33 +3,6 @@ export type tableHeader = {
   heName: string;
 };
 
-export const futureTableHeaders: tableHeader[] = [
-  {
-    name: "date",
-    heName: "תאריך",
-  },
-  {
-    name: "day",
-    heName: "יום",
-  },
-  {
-    name: "leader",
-    heName: "מוביל",
-  },
-  {
-    name: "extra",
-    heName: "תורן נוסף",
-  },
-  {
-    name: "commander",
-    heName: 'רמ"ד',
-  },
-  {
-    name: "class",
-    heName: "ענף",
-  },
-];
-
 export enum classes {
   tos = 'תו"ס',
   migun = "מיגון",
@@ -53,7 +26,7 @@ export interface assignedTableRow {
   "תורן נוסף": string;
   'רמ"ד': string;
   ענף: classes;
-  "בוצע?": boolean;
+  "בוצע?": keyof typeof heBoolean;
 }
 
 export interface soldier {
@@ -63,15 +36,17 @@ export interface soldier {
   שם: string;
   "שם משפחה": string;
   שיוך: string;
-  "בעל/ת רישיון צבאי": heBolean;
-  "עבר/ה הכשרה לשאיבות": heBolean;
-  'כשיר/ה (חוסן, ת"ש)': heBolean;
+  "בעל/ת רישיון צבאי": heBoolean;
+  "עבר/ה הכשרה לשאיבות": heBoolean;
+  'כשיר/ה (חוסן, ת"ש)': heBoolean;
   נקודות: number;
 }
 
-export enum heBolean {
+export enum heBoolean {
   "לא" = 0,
   "כן" = 1,
 }
+
+export const heBooleanKeys = Object.keys(heBoolean);
 
 export const weekend = Object.keys(daysOfTheWeek).slice(-2);

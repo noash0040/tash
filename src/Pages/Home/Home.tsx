@@ -5,6 +5,9 @@ import Table from "../../Components/Table/Table";
 import { assignedTableRow, soldier } from "../../Models/TableModels";
 import { makeFutureTable } from "../../Functions/TableFunctions";
 
+const soldiersFileName = "רשימת שואבים";
+const futureTableFileName = "תורנות שאיבה";
+
 enum propertyCheck {
   soldiers = 'מס"ד',
   assignments = "תאריך",
@@ -33,7 +36,7 @@ const Home = () => {
 
   useEffect(() => {
     if (soldierList.length > 0 && lastMonthList.length > 0) {
-      setFileValidText(fileText.done);
+      setFileValidText("");
       setFutureMonth(makeFutureTable(soldierList, lastMonthList));
     }
   }, [soldierList, lastMonthList]);
@@ -73,14 +76,22 @@ const Home = () => {
           {soldierList.length > 0 && (
             <div className="w-24/50">
               <h1 className="font-bold">טבלת חיילים</h1>
-              <Table data={soldierList}></Table>
+              <Table
+                data={soldierList}
+                tableId="soldiers"
+                fileName={soldiersFileName}
+              ></Table>
             </div>
           )}
 
           {futureMonth.length > 0 && (
             <div className="w-24/50">
               <h1 className="font-bold">טבלה עתידית</h1>
-              <Table data={futureMonth}></Table>
+              <Table
+                data={futureMonth}
+                tableId="future-table"
+                fileName={futureTableFileName}
+              ></Table>
             </div>
           )}
         </div>

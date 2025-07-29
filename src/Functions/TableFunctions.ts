@@ -2,7 +2,7 @@ import {
   assignedTableRow,
   classes,
   daysOfTheWeek,
-  heBolean,
+  heBoolean,
   soldier,
   weekend,
 } from "../Models/TableModels";
@@ -19,15 +19,15 @@ export const makeFutureTable = (
   lastMonthList: assignedTableRow[]
 ) => {
   const filteredSolderData = soldierList.filter((obj: soldier) => {
-    return heBolean[obj[fitHeader]];
+    return heBoolean[obj[fitHeader]];
   });
 
   const Leaders = filteredSolderData.filter(
-    (person: soldier) => heBolean[person[licenseHeader]]
+    (person: soldier) => heBoolean[person[licenseHeader]]
   );
 
   const Extras = filteredSolderData.filter(
-    (person: soldier) => !heBolean[person[licenseHeader]]
+    (person: soldier) => !heBoolean[person[licenseHeader]]
   );
 
   return fillAMonth(soldierList, Leaders, Extras, lastMonthList);
@@ -91,14 +91,26 @@ const fillAWeek = (
     return table;
   }
 
-  const leader = leaders[Math.floor(Math.random() * leaders.length)];
-  const extra = extras[Math.floor(Math.random() * extras.length)];
+  const minimumPointsLeaders = getMinimumPointsSoldiers(leaders);
+  const minimumPointsExtras = getMinimumPointsSoldiers(extras);
+
+  const leader =
+    minimumPointsLeaders[
+      Math.floor(Math.random() * minimumPointsLeaders.length)
+    ];
+  const extra =
+    minimumPointsExtras[Math.floor(Math.random() * minimumPointsExtras.length)];
+
   const leaderFullName = `${leader.שם} ${leader["שם משפחה"]}`;
   const extraFullName = `${extra.שם} ${extra["שם משפחה"]}`;
 
-  isWeekend(daysOfTheWeek[rowNumber])
-    ? (leader.נקודות += 2)
-    : (leader.נקודות += 1);
+  if (isWeekend(daysOfTheWeek[rowNumber])) {
+    leader.נקודות += 2;
+    extra.נקודות += 2;
+  } else {
+    leader.נקודות += 1;
+    extra.נקודות += 1;
+  }
 
   const row = newAssignedTableRow(
     startingDay,
@@ -119,6 +131,24 @@ const fillAWeek = (
   );
 
   return table;
+};
+
+const getMinimumPointsSoldiers = (soldierList: soldier[]) => {
+  const points = soldierList.map((soldier) => soldier.נקודות);
+  let min = Infinity,
+    secondMin = Infinity;
+  for (var i = 0; i < points.length; i++) {
+    if (points[i] < min) {
+      secondMin = min;
+      min = points[i];
+    } else if (points[i] < secondMin) {
+      secondMin = points[i];
+    }
+  }
+
+  return soldierList.filter(
+    (soldier) => soldier.נקודות === min || soldier.נקודות === secondMin
+  );
 };
 
 const createEmptyWeek = (startingDate: Moment, classType: classes) => {
@@ -147,7 +177,7 @@ const newAssignedTableRow = (
     "תורן נוסף": extraSoldier,
     'רמ"ד': commander,
     ענף: classType,
-    "בוצע?": false,
+    "בוצע?": "לא",
   };
 };
 
@@ -162,7 +192,7 @@ const newEmptyAssignedTableRow = (
     "תורן נוסף": "",
     'רמ"ד': "",
     ענף: classType,
-    "בוצע?": false,
+    "בוצע?": "לא",
   };
 };
 
