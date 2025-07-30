@@ -64,8 +64,8 @@ const Table = ({ data, tableId, fileName }: props) => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-around lg:text-sm text-xs">
-      <table id={tableId} dir="rtl" className="w-full h-9/10">
+    <div className="w-full h-full flex flex-col items-center justify-around">
+      <table id={tableId} dir="rtl" className="h-8/10 w-full">
         <thead>
           <tr>{getHeadings()}</tr>
         </thead>
@@ -73,7 +73,7 @@ const Table = ({ data, tableId, fileName }: props) => {
       </table>
       <button
         id="button-label"
-        className={`lg:w-2/10 w-5/10 h-1/30 bg-green-200 rounded-full flex items-center justify-center hover:opacity-70 cursor-pointer shadow-2xl active:translate-y-1`}
+        className={`lg:w-1/10 w-2/10 bg-green-200 rounded-full flex items-center justify-center hover:opacity-70 cursor-pointer shadow-2xl active:translate-y-1`}
         onClick={() => createXLSXFile(data)}
       >
         <h3 className="flex items-center justify-around w-8/10">

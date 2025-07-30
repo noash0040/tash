@@ -66,15 +66,15 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div className="">
       <p dir="rtl" className="text-center font-bold">
         {fileValidText}
       </p>
 
-      <div className="w-full h-full flex justify-center">
-        <div className="w-19/20 h-1/3 flex justify-between flex-row-reverse">
+      <div className="w-full h-full flex justify-center lg:text-sm text-[0.5rem]">
+        <div className="w-full h-1/3 flex justify-between flex-col items-center">
           {soldierList.length > 0 && (
-            <div className="w-24/50">
+            <div className="w-full">
               <h1 className="font-bold">טבלת חיילים</h1>
               <Table
                 data={soldierList}
@@ -85,7 +85,7 @@ const Home = () => {
           )}
 
           {futureMonth.length > 0 && (
-            <div className="w-24/50">
+            <div className="w-full">
               <h1 className="font-bold">טבלה עתידית</h1>
               <Table
                 data={futureMonth}
