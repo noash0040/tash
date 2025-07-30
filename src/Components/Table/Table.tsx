@@ -6,6 +6,8 @@ import * as XLSX from "xlsx";
 import { assignedTableRow } from "../../Models/TableModels";
 
 const futureTableId = "future-table";
+//const editableCells = ["תורן נוסף", "מוביל המשימה"];
+
 type props = {
   data: object[];
   tableId: string;
@@ -62,8 +64,8 @@ const Table = ({ data, tableId, fileName }: props) => {
   };
 
   return (
-    <div className="w-full h-full">
-      <table id={tableId} dir="rtl" className="w-full h-full">
+    <div className="w-full h-full flex flex-col items-center justify-around lg:text-sm text-xs">
+      <table id={tableId} dir="rtl" className="w-full h-9/10">
         <thead>
           <tr>{getHeadings()}</tr>
         </thead>
@@ -71,7 +73,7 @@ const Table = ({ data, tableId, fileName }: props) => {
       </table>
       <button
         id="button-label"
-        className={`w-2/10 h-1/20 bg-green-400 rounded-full flex items-center justify-center hover:opacity-70 cursor-pointer shadow-2xl active:translate-y-1`}
+        className={`lg:w-2/10 w-5/10 h-1/30 bg-green-200 rounded-full flex items-center justify-center hover:opacity-70 cursor-pointer shadow-2xl active:translate-y-1`}
         onClick={() => createXLSXFile(data)}
       >
         <h3 className="flex items-center justify-around w-8/10">
