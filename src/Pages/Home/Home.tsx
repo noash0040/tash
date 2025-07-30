@@ -77,10 +77,11 @@ const Home = () => {
             <div className="w-full">
               <h1 className="font-bold">טבלת חיילים</h1>
               <Table
-                data={soldierList}
+                list={soldierList}
+                setList={setSoldierList}
                 tableId="soldiers"
                 fileName={soldiersFileName}
-              ></Table>
+              />
             </div>
           )}
 
@@ -88,10 +89,12 @@ const Home = () => {
             <div className="w-full">
               <h1 className="font-bold">טבלה עתידית</h1>
               <Table
-                data={futureMonth}
+                list={futureMonth}
+                setList={setFutureMonth}
                 tableId="future-table"
                 fileName={futureTableFileName}
-              ></Table>
+                soldierList={soldierList}
+              />
             </div>
           )}
         </div>
